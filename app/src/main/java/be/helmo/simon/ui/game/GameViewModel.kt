@@ -1,8 +1,5 @@
-package be.helmo.simon.ui.compose.game
+package be.helmo.simon.ui.game
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.helmo.simon.domain.GameRules
@@ -13,13 +10,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import java.time.Duration
-import kotlin.random.Random
 
 class GameViewModel(
 
 ) : ViewModel() {
 
-    private val MILLIS_VALUE: Long = 1000
+    private val millisValue: Long = 500
 
     private val _uiState: MutableStateFlow<GameUiState> = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
@@ -32,22 +28,23 @@ class GameViewModel(
         }
     }
 
-    private fun glimpseLight(color: GameTileUiState) {
-        viewModelScope.launch {
-            color.toggleColor()
+    private suspend fun glimpseLight(color: GameTileUiState) {
+        color.toggleColor()
 
-            delay(Duration.ofMillis(MILLIS_VALUE))
+        delay(Duration.ofMillis(millisValue))
 
-            color.toggleColor()
-        }
+        color.toggleColor()
     }
 
     fun onButtonClicked(currentColor: GameTileUiState) {
-        toggleClick()
+        viewModelScope.launch {
+            toggleClick()
 
-        glimpseLight(currentColor)
+            glimpseLight(currentColor)
+            gameRules.checkNote(currentColor.value)
 
-        toggleClick()
+            toggleClick()
+        }
     }
 
     private fun showError() {

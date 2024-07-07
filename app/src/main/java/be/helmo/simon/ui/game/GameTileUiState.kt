@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.compose.game
+package be.helmo.simon.ui.game
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

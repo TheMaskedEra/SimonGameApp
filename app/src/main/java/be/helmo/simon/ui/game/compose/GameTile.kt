@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.compose.game
+package be.helmo.simon.ui.game.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
+import be.helmo.simon.ui.game.GameTileUiState
+import be.helmo.simon.ui.game.GameUiState
 
 @Composable
 fun GameTile(

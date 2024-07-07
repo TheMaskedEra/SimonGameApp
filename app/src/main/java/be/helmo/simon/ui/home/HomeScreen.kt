@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.compose.home
+package be.helmo.simon.ui.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

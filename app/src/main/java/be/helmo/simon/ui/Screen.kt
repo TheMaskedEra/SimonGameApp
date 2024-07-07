@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.compose
+package be.helmo.simon.ui
 
 import androidx.navigation.NamedNavArgument
 

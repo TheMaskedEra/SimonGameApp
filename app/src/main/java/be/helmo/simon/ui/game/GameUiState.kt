@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.compose.game
+package be.helmo.simon.ui.game
 
 data class GameUiState(
     var score: Int = 0,
