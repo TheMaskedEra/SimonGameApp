@@ -22,6 +22,10 @@ class GameViewModel(
 
     private var gameRules: GameRules = GameRules()
 
+    init {
+        showSequence()
+    }
+
     private fun toggleClick() {
         _uiState.update {
             it.copy(canClick = !it.canClick)
@@ -41,9 +45,45 @@ class GameViewModel(
             toggleClick()
 
             glimpseLight(currentColor)
-            gameRules.checkNote(currentColor.value)
+            val result = gameRules.checkNote(currentColor.value)
+
+            when(result) {
+                -1 -> showError()
+                1 -> {
+                    _uiState.update {
+                        it.copy(score = it.score + 1)
+                    }
+                    delay(Duration.ofMillis(100))
+                    showSequence()
+                }
+            }
 
             toggleClick()
+        }
+    }
+
+    private fun showSequence() {
+        val sequence = gameRules.sequence
+
+        viewModelScope.launch {
+            toggleClick()
+
+            for (note in sequence) {
+                val gameTile = findGameTileState(note) ?: continue
+                glimpseLight(gameTile)
+                delay(Duration.ofMillis(100))
+            }
+            toggleClick()
+        }
+    }
+
+    private fun findGameTileState(charValue: Char): GameTileUiState? {
+        return when (charValue) {
+            GameTileUiState.Red.value -> GameTileUiState.Red
+            GameTileUiState.Yellow.value -> GameTileUiState.Yellow
+            GameTileUiState.Blue.value -> GameTileUiState.Blue
+            GameTileUiState.Green.value -> GameTileUiState.Green
+            else -> null
         }
     }
 

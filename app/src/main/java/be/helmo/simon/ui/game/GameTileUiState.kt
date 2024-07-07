@@ -12,14 +12,6 @@ abstract class GameTileUiState(
     var currentColor by mutableStateOf(gameTileType.idleColor)
         private set
 
-    data object Red : GameTileUiState(GameTileEnum.Red)
-
-    data object Yellow : GameTileUiState(GameTileEnum.Yellow)
-
-    data object Blue : GameTileUiState(GameTileEnum.Blue)
-
-    data object Green : GameTileUiState(GameTileEnum.Green)
-
     fun toggleColor() {
         currentColor = if (currentColor == gameTileType.activeColor) {
             gameTileType.idleColor
@@ -27,4 +19,12 @@ abstract class GameTileUiState(
             gameTileType.activeColor
         }
     }
+
+    data object Red : GameTileUiState(GameTileEnum.Red)
+
+    data object Yellow : GameTileUiState(GameTileEnum.Yellow)
+
+    data object Blue : GameTileUiState(GameTileEnum.Blue)
+
+    data object Green : GameTileUiState(GameTileEnum.Green)
 }
