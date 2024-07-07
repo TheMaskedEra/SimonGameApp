@@ -67,7 +67,7 @@ fun GameScreen(
                 .padding(contentPadding)
         ) {
             val score = gameUiState.score
-
+            
             Text(
                 text = "Current Score : $score",
                 Modifier.align(Alignment.CenterHorizontally)

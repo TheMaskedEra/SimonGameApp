@@ -6,6 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import be.helmo.simon.ui.game.compose.GameScreen
 import be.helmo.simon.ui.home.HomeScreen
+import be.helmo.simon.ui.savescore.SaveScoreScreen
+import be.helmo.simon.ui.scoreboard.ScoreBoardScreen
 
 @Composable
 fun SimonApp() {
@@ -23,7 +25,7 @@ fun SimonApp() {
                     navController.navigate(Screen.Game.route)
                 },
                 onTrophyClicked = {
-                    /*TODO*/
+                    navController.navigate(Screen.ScoreBoard.route)
                 }
             )
         }
@@ -33,9 +35,21 @@ fun SimonApp() {
         ) {
             GameScreen(
                 onBackArrowClicked = {
-                    navController.popBackStack()
+                    navController.navigateUp() //TODO trouver un moyen de popstack avec les arguments pour retirer l'id directement
                 }
             )
+        }
+
+        composable(
+            route = Screen.SaveScore.route
+        ) {
+            SaveScoreScreen()
+        }
+
+        composable(
+            route = Screen.ScoreBoard.route
+        ) {
+            ScoreBoardScreen()
         }
     }
 }

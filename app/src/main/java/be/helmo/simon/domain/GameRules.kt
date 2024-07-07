@@ -1,6 +1,5 @@
 package be.helmo.simon.domain
 
-import android.util.Log
 import kotlin.random.Random
 
 class GameRules {
@@ -28,15 +27,12 @@ class GameRules {
         val validMove = sequence[_currentIndexNote]
 
         if (validMove != note) {
-            Log.d("Simon Result", "Simon failed")
             return -1
         } else if (_currentIndexNote < _sequence.size -1) {
-            Log.d("Simon Result", "Simon waiting for next sequence")
             _currentIndexNote++
             return 0
         }
 
-        Log.d("Simon Result", "Simon suceeded")
         generateNextNote()
         return 1
     }

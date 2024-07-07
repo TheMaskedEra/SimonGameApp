@@ -9,4 +9,8 @@ sealed class Screen(
     data object Home : Screen("home")
 
     data object Game : Screen("game")
+
+    data object SaveScore : Screen("save_score")
+
+    data object ScoreBoard : Screen("scoreboard")
 }

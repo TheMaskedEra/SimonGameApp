@@ -8,8 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.time.delay
-import java.time.Duration
+import kotlinx.coroutines.delay
 
 class GameViewModel(
 
@@ -32,28 +31,18 @@ class GameViewModel(
         }
     }
 
-    private suspend fun glimpseLight(color: GameTileUiState) {
-        color.toggleColor()
-
-        delay(Duration.ofMillis(millisValue))
-
-        color.toggleColor()
-    }
-
     fun onButtonClicked(currentColor: GameTileUiState) {
         viewModelScope.launch {
             toggleClick()
 
-            glimpseLight(currentColor)
+            currentColor.glimpseColor(millisValue)
             val result = gameRules.checkNote(currentColor.value)
 
             when(result) {
-                -1 -> showError()
+                -1 -> showEnding()
                 1 -> {
-                    _uiState.update {
-                        it.copy(score = it.score + 1)
-                    }
-                    delay(Duration.ofMillis(100))
+                    incrementScore()
+                    delay(100)
                     showSequence()
                 }
             }
@@ -69,29 +58,24 @@ class GameViewModel(
             toggleClick()
 
             for (note in sequence) {
-                val gameTile = findGameTileState(note) ?: continue
-                glimpseLight(gameTile)
-                delay(Duration.ofMillis(100))
+                val gameTile = GameTileUiState.findGameTileUiState(note) ?: continue
+                gameTile.glimpseColor(millisValue)
+                delay(100)
             }
+
             toggleClick()
         }
     }
 
-    private fun findGameTileState(charValue: Char): GameTileUiState? {
-        return when (charValue) {
-            GameTileUiState.Red.value -> GameTileUiState.Red
-            GameTileUiState.Yellow.value -> GameTileUiState.Yellow
-            GameTileUiState.Blue.value -> GameTileUiState.Blue
-            GameTileUiState.Green.value -> GameTileUiState.Green
-            else -> null
+    private fun showEnding() {
+        _uiState.update {
+            it.copy(isEnd = true) //TODO Dialog pour demander s'il veut sauvegarder son score
         }
     }
 
-    private fun showError() {
-        //TODO
-    }
-
-    fun saveScore() {
-        //TODO
+    private fun incrementScore() {
+        _uiState.update {
+            it.copy(score = it.score + 1)
+        }
     }
 }
