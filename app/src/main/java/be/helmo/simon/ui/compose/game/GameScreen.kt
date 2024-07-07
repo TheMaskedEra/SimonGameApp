@@ -97,16 +97,18 @@ fun GameScreen(
                     ) {
 
                         GameTile(
-                            0,
-                            gameUiState,
-                            gameViewModel
-                        )
+                            GameTileUiState.Blue,
+                            gameUiState
+                        ) {
+                            gameViewModel.onButtonClicked(GameTileUiState.Blue)
+                        }
 
                         GameTile(
-                            1,
-                            gameUiState,
-                            gameViewModel
-                        )
+                            GameTileUiState.Green,
+                            gameUiState
+                        ) {
+                            gameViewModel.onButtonClicked(GameTileUiState.Green)
+                        }
                     }
 
                     Spacer(modifier = Modifier.width(16.dp))
@@ -120,16 +122,18 @@ fun GameScreen(
                     ) {
 
                         GameTile(
-                            2,
-                            gameUiState,
-                            gameViewModel
-                        )
+                            GameTileUiState.Red,
+                            gameUiState
+                        ) {
+                            gameViewModel.onButtonClicked(GameTileUiState.Red)
+                        }
 
                         GameTile(
-                            3,
-                            gameUiState,
-                            gameViewModel
-                        )
+                            GameTileUiState.Yellow,
+                            gameUiState
+                        ) {
+                            gameViewModel.onButtonClicked(GameTileUiState.Yellow)
+                        }
                     }
                 }
             }
@@ -141,34 +145,4 @@ fun GameScreen(
 @Composable
 fun GameScreenPreview() {
     GameScreen({})
-}
-
-@Composable
-fun GameTile(
-    colorOrder: Int,
-    state: GameUiState,
-    viewModel: GameViewModel
-) {
-    val colorState: GameTileUiState = state.colors.elementAt(colorOrder)
-    val shape = RectangleShape
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.Center)
-    ) {
-
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .clip(shape)
-                .background(colorState.currentColor)
-                .clickable(
-                    enabled = state.canClick,
-                    onClick = {
-                        viewModel.onButtonClicked(colorState)
-                    }
-                )
-        )
-    }
 }

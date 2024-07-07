@@ -27,9 +27,8 @@ class GameViewModel(
     private var gameRules: GameRules = GameRules()
 
     private fun toggleClick() {
-        val value = _uiState.value.canClick
         _uiState.update {
-            it.copy(canClick = !value)
+            it.copy(canClick = !it.canClick)
         }
     }
 
@@ -43,30 +42,12 @@ class GameViewModel(
         }
     }
 
-    fun onButtonClicked(color: GameTileUiState) {
-        color.toggleColor()
-    }
-
-    private fun showSequence() {
+    fun onButtonClicked(currentColor: GameTileUiState) {
         toggleClick()
 
-        val sequence = gameRules.sequence
-
-        for (note in sequence) {
-            val gameTileNote = findGameTile(note) ?: continue
-            Handler(Looper.getMainLooper()).postDelayed({
-                glimpseLight(gameTileNote)
-            }, MILLIS_VALUE)
-        }
+        glimpseLight(currentColor)
 
         toggleClick()
-    }
-
-    private fun findGameTile(charValue: Char): GameTileUiState? {
-        val colors = _uiState.value.colors
-        return colors.find {
-            it.value == charValue
-        }
     }
 
     private fun showError() {
