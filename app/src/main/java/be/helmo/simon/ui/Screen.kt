@@ -13,4 +13,13 @@ sealed class Screen(
     data object SaveScore : Screen("save_score")
 
     data object ScoreBoard : Screen("scoreboard")
+
+    fun withArgs(vararg args: String): String {
+        return buildString {
+            append(route)
+            args.forEach { arg ->
+                append("/$arg")
+            }
+        }
+    }
 }

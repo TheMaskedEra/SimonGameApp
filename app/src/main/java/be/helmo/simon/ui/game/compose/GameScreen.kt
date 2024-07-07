@@ -37,9 +37,14 @@ import be.helmo.simon.ui.game.GameViewModel
 @Composable
 fun GameScreen(
     onBackArrowClicked: () -> Unit,
+    onGameFinished: (Int) -> Unit,
     gameViewModel: GameViewModel = viewModel()
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
+
+    if (gameUiState.isEnd) {
+        onGameFinished(gameUiState.score)
+    }
 
     Scaffold(
         topBar = {
@@ -139,5 +144,5 @@ fun GameScreen(
 @Preview
 @Composable
 fun GameScreenPreview() {
-    GameScreen({})
+    GameScreen({}, {})
 }
