@@ -1,11 +1,16 @@
 package be.helmo.simon.ui.compose.game
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import be.helmo.simon.domain.GameRules
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.time.delay
 import java.time.Duration
 import kotlin.random.Random
@@ -19,18 +24,7 @@ class GameViewModel(
     private val _uiState: MutableStateFlow<GameUiState> = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
-    private val _sequence: MutableList<GameTileUiState> = mutableListOf()
-    private var _currentIndexMove: Int = 0
-
-    init {
-        newGame()
-    }
-
-    private fun newGame() {
-        _currentIndexMove = 0
-        nextMove()
-        showSequence()
-    }
+    private var gameRules: GameRules = GameRules()
 
     private fun toggleClick() {
         val value = _uiState.value.canClick
@@ -39,54 +33,40 @@ class GameViewModel(
         }
     }
 
-    private suspend fun glimpseLight(color: GameTileUiState) {
-        color.toggleColor()
+    private fun glimpseLight(color: GameTileUiState) {
+        viewModelScope.launch {
+            color.toggleColor()
 
-        delay(Duration.ofMillis(MILLIS_VALUE))
+            delay(Duration.ofMillis(MILLIS_VALUE))
 
-        color.toggleColor()
+            color.toggleColor()
+        }
     }
 
     fun onButtonClicked(color: GameTileUiState) {
-
-        toggleClick()
-        val size = _sequence.size
-
-        glimpseLight(color)
-
-        val current = _sequence[_currentIndexMove]
-        if (current != color) {
-            showError()
-        }
-
-        if (_currentIndexMove == size && _sequence[_currentIndexMove] == color) {
-            nextMove()
-            _currentIndexMove = 0
-        } else {
-            _currentIndexMove++
-        }
-
-        toggleClick()
-        showSequence()
-    }
-
-    private fun nextMove() {
-        val randomValue = Random.nextInt(0, 4)
-        val next = _uiState.value.colors.elementAt(randomValue)
-
-        _sequence.add(next)
+        color.toggleColor()
     }
 
     private fun showSequence() {
         toggleClick()
 
-        for (tile in _sequence) {
-            glimpseLight(tile)
+        val sequence = gameRules.sequence
 
-            delay(Duration.ofMillis(MILLIS_VALUE))
+        for (note in sequence) {
+            val gameTileNote = findGameTile(note) ?: continue
+            Handler(Looper.getMainLooper()).postDelayed({
+                glimpseLight(gameTileNote)
+            }, MILLIS_VALUE)
         }
 
         toggleClick()
+    }
+
+    private fun findGameTile(charValue: Char): GameTileUiState? {
+        val colors = _uiState.value.colors
+        return colors.find {
+            it.value == charValue
+        }
     }
 
     private fun showError() {
@@ -94,6 +74,6 @@ class GameViewModel(
     }
 
     fun saveScore() {
-
+        //TODO
     }
 }
