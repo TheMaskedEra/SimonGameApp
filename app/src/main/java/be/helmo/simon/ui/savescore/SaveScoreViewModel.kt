@@ -6,4 +6,8 @@ class SaveScoreViewModel(
 
 ): ViewModel() {
 
+    fun saveScore(score: Int) {
+
+    }
+
 }

@@ -67,7 +67,11 @@ fun SimonApp() {
         composable(
             route = Screen.ScoreBoard.route
         ) {
-            ScoreBoardScreen()
+            ScoreBoardScreen(
+                backAction = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }
