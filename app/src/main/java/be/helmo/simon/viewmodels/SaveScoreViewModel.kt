@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.savescore
+package be.helmo.simon.viewmodels
 
 import androidx.lifecycle.ViewModel
 

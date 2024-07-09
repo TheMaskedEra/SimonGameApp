@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.savescore
+package be.helmo.simon.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

@@ -1,8 +1,9 @@
-package be.helmo.simon.ui.game
+package be.helmo.simon.viewmodels.states
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import be.helmo.simon.viewmodels.GameTileEnum
 import kotlinx.coroutines.delay
 
 sealed class GameTileUiState(

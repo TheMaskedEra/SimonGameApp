@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.game
+package be.helmo.simon.viewmodels
 
 import androidx.compose.ui.graphics.Color
 import be.helmo.simon.ui.theme.activeBlue

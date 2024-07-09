@@ -1,4 +1,4 @@
-package be.helmo.simon.ui.game.compose
+package be.helmo.simon.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,8 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.helmo.simon.R
-import be.helmo.simon.ui.game.GameTileUiState
-import be.helmo.simon.ui.game.GameViewModel
+import be.helmo.simon.viewmodels.states.GameTileUiState
+import be.helmo.simon.viewmodels.GameViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

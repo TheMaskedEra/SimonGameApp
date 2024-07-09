@@ -1,8 +1,10 @@
-package be.helmo.simon.ui.game
+package be.helmo.simon.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.helmo.simon.domain.GameRules
+import be.helmo.simon.viewmodels.states.GameTileUiState
+import be.helmo.simon.viewmodels.states.GameUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
