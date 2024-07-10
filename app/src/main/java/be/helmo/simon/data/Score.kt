@@ -6,11 +6,11 @@ import java.util.UUID
 
 @Entity
 class Score(
-    @PrimaryKey val id: UUID,
+    @PrimaryKey val id: UUID = UUID.randomUUID(),
     val name:String = "" ,
     val score: Int = 0,
-    val photo: String?,
-    val localisation: String?
+    val photo: String? = null,
+    val localisation: String? = null
 ) {
 
 }

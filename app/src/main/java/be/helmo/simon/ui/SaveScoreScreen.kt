@@ -19,13 +19,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import be.helmo.simon.R
+import be.helmo.simon.viewmodels.SaveScoreViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SaveScoreScreen(
     score: Int,
-    onCloseCalled: () -> Unit
+    onCloseCalled: () -> Unit,
+    onSaveAction: () -> Unit,
+    saveScoreViewModel: SaveScoreViewModel = viewModel()
 ) {
     var text by rememberSaveable {
         mutableStateOf("")
@@ -47,7 +51,8 @@ fun SaveScoreScreen(
                 actions = {
                     IconButton(
                         onClick = {
-
+                            saveScoreViewModel.saveScore(score, text)
+                            onSaveAction()
                         }
                     ) {
                         Icon(painter = painterResource(id = R.drawable.ic_check), contentDescription = "Confirmer la sauvegarde")
@@ -65,6 +70,7 @@ fun SaveScoreScreen(
         ) {
             Text(text = "Le score est de $score points")
 
+
             OutlinedTextField(
                 value = text,
                 onValueChange = {
@@ -81,7 +87,5 @@ fun SaveScoreScreen(
 @Preview
 @Composable
 fun SaveScoreScreenPreview() {
-    SaveScoreScreen(score = 3, ) {
-
-    }
+    SaveScoreScreen(score = 3, onCloseCalled = {}, onSaveAction = {})
 }

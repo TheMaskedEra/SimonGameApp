@@ -54,6 +54,9 @@ fun SimonApp() { //TODO rename en navgraph ?
                     score = it,
                     onCloseCalled = {
                         navController.navigate(Screen.Home.route)
+                    },
+                    onSaveAction = {
+                        navController.navigate(Screen.Home.route)
                     }
                 )
             }
