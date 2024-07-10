@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -28,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.helmo.simon.R
 import be.helmo.simon.viewmodels.states.GameTileUiState
@@ -43,7 +48,11 @@ fun GameScreen(
     val gameUiState by gameViewModel.uiState.collectAsState()
 
     if (gameUiState.isEnd) {
-        onGameFinished(gameUiState.score)
+        GameEndDialog(onDismissRequest = onBackArrowClicked, onConfirmRequest = {
+            onGameFinished(
+                gameUiState.score
+            )
+        })
     }
 
     Scaffold(
@@ -139,6 +148,41 @@ fun GameScreen(
             }
         }
     }
+}
+
+@Composable
+fun GameEndDialog(
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    onConfirmRequest: (Int) -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = {
+            Text("Sauvegarder le score")
+        },
+        text = {
+            Text("Voulez vous sauvegarder votre score ?")
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text("Ignorer")
+            }
+        },
+        confirmButton = {
+            Button(onClick = {
+                onConfirmRequest.invoke(0) //TODO
+            }) {
+                Text("Sauvegarder")
+            }
+        }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GameEndDialogPreview() {
+    GameEndDialog(onDismissRequest = {}, onConfirmRequest = {})
 }
 
 @Preview
