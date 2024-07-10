@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 
 @Composable
-fun SimonApp() {
+fun SimonApp() { //TODO rename en navgraph ?
     val navController = rememberNavController()
 
     NavHost(

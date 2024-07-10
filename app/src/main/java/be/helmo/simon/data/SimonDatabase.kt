@@ -6,21 +6,21 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [Score::class], version = 1, exportSchema = false)
-abstract class ScoreDatabase : RoomDatabase() {
+abstract class SimonDatabase : RoomDatabase() {
 
     abstract fun scoreDao(): ScoreDao
 
     companion object {
-        private var INSTANCE: ScoreDatabase? = null
+        private var INSTANCE: SimonDatabase? = null
 
         fun create(context: Context) {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
-                ScoreDatabase::class.java,
+                SimonDatabase::class.java,
                 "simon-game-database")
                 .build()
         }
 
-        fun get(): ScoreDatabase {
+        fun get(): SimonDatabase {
             return INSTANCE ?: throw IllegalArgumentException("The database must be initialized")
         }
     }

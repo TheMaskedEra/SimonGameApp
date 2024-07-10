@@ -1,5 +1,6 @@
 package be.helmo.simon.ui
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -55,7 +57,7 @@ fun ScoreBoardScreen(
         ) {
             items(5) {
                 ScoreItem(
-                    onShareButtonClicked = { scoreBoardViewModel.onShareButtonClicked() }
+                    getShareIntent = { scoreBoardViewModel.getShareIntent() }
                 )
                 HorizontalDivider()
             }
@@ -65,8 +67,10 @@ fun ScoreBoardScreen(
 
 @Composable
 fun ScoreItem(
-    onShareButtonClicked: () -> Unit
+    getShareIntent: () -> Intent
 ) {
+    val context = LocalContext.current
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,7 +84,8 @@ fun ScoreItem(
 
         IconButton(
             onClick = {
-
+                val shareIntent = getShareIntent()
+                context.startActivity(shareIntent)
             }
         ) {
             Icon(
@@ -104,5 +109,9 @@ fun ScoreBoardScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ScoreItemPreview() {
-    ScoreItem {}
+    ScoreItem (
+        getShareIntent = {
+            Intent()
+        }
+    )
 }
