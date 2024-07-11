@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 @Database(entities = [Score::class], version = 1, exportSchema = false)
+@TypeConverters(DateTimeConverter::class)
 abstract class SimonDatabase : RoomDatabase() {
 
     abstract fun scoreDao(): ScoreDao

@@ -1,8 +1,10 @@
 package be.helmo.simon.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,13 +20,19 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.helmo.simon.R
 import be.helmo.simon.viewmodels.ScoreBoardViewModel
+import be.helmo.simon.viewmodels.states.ScoreItemUiState
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +40,9 @@ fun ScoreBoardScreen(
     backAction: () -> Unit,
     scoreBoardViewModel: ScoreBoardViewModel = viewModel()
 ) {
+    val uiState = scoreBoardViewModel.scoreBoardUiState.collectAsState()
+    val scores = uiState.value.scores
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -55,9 +66,13 @@ fun ScoreBoardScreen(
         LazyColumn(
             modifier = Modifier.padding(innerPadding)
         ) {
-            items(5) {
+            items(scores.size) {
+                val item = scores[0]
                 ScoreItem(
-                    getShareIntent = { scoreBoardViewModel.getShareIntent() }
+                    getShareIntent = {
+                        scoreBoardViewModel.getShareIntent(item.score)
+                    },
+                    item
                 )
                 HorizontalDivider()
             }
@@ -65,53 +80,73 @@ fun ScoreBoardScreen(
     }
 }
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun ScoreItem(
-    getShareIntent: () -> Intent
+    getShareIntent: (Int) -> Intent,
+    scoreItem: ScoreItemUiState
 ) {
     val context = LocalContext.current
+    val score = scoreItem.score
+    val date = scoreItem.date
 
-    Row(
+    val dateFormat: String = String.format("Le %d/%02d %d à %d:%02d", date.dayOfMonth, date.monthValue, date.year, date.hour, date.minute) //TODO trouver le local language
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Column(
-
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
         ) {
-            Text("Score")
-            Text("Name")
-        }
+            Column {
+                Text(
+                    modifier = Modifier,
+                    text = scoreItem.name,
+                    fontSize = TextUnit(25f, TextUnitType.Sp)
+                )
 
-        IconButton(
-            onClick = {
-                val shareIntent = getShareIntent()
-                context.startActivity(shareIntent)
+                Text(dateFormat)
             }
-        ) {
-            Icon(
-                painter = painterResource(
-                    id = R.drawable.ic_share
-                ),
-                contentDescription = "Partager le score"
-            )
-        }
-    }
-}
 
-@Preview
-@Composable
-fun ScoreBoardScreenPreview() {
-    ScoreBoardScreen(
-        backAction = {}
-    )
+            Spacer(modifier = Modifier.weight(1f))
+
+            IconButton(
+                onClick = {
+                    val shareIntent = getShareIntent(score)
+                    context.startActivity(shareIntent)
+                }
+            ) {
+                Icon(
+                    painter = painterResource(
+                        id = R.drawable.ic_share
+                    ),
+                    contentDescription = "Partager le score"
+                )
+            }
+        }
+
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally),
+            text =score.toString(),
+            fontSize = TextUnit(15f, TextUnitType.Em)
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ScoreItemPreview() {
-    ScoreItem (
-        getShareIntent = {
-            Intent()
-        }
+    val getShareIntent: (Int) -> Intent = {
+        Intent()
+    }
+    val scoreItem = ScoreItemUiState(
+        score = 4,
+        name = "Alexis",
+        date = LocalDateTime.now()
     )
+
+    ScoreItem(getShareIntent = getShareIntent, scoreItem = scoreItem)
 }
