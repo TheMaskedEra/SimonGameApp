@@ -14,19 +14,27 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import be.helmo.simon.R
+import be.helmo.simon.viewmodels.HomeViewModel
+import be.helmo.simon.viewmodels.states.ScoreItemUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onPlayClicked: () -> Unit,
-    onTrophyClicked: () -> Unit
+    onTrophyClicked: () -> Unit,
+    homeViewModel: HomeViewModel = viewModel()
 ) {
+    val scores = homeViewModel.bestScores.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -45,32 +53,36 @@ fun HomeScreen(
             )
         }
     ) { innerPadding ->
-        HomePageScreen(Modifier.padding(innerPadding), onPlayClicked)
-    }
-}
-
-@Composable
-fun HomePageScreen(
-    modifier: Modifier = Modifier,
-    onPlayClicked: () -> Unit = {},
-) {
-    Box(
-        modifier = modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Button(onClick = onPlayClicked) {
-            Text(text = stringResource(R.string.play_title))
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentAlignment = Alignment.Center
+        ) {
+            Column {
+                Button(onClick = onPlayClicked) {
+                    Text(text = stringResource(R.string.play_title))
+                }
+                ScoreList(scores)
+            }
         }
     }
 }
 
-@Preview
 @Composable
-fun ScoreList() {
-    Column {
-        Text(text = "Score 1")
-        Text(text = "Score 2")
-        Text(text = "Score 3")
+fun ScoreList(
+    scores: State<List<ScoreItemUiState>>
+) {
+    //TODO Faire des array de formattage pour les différents scores
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        for (score in scores.value) {
+            Text(
+                text = String.format("Score %d", score.score)
+            )
+        }
     }
 }

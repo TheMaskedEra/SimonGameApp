@@ -66,8 +66,8 @@ fun ScoreBoardScreen(
         LazyColumn(
             modifier = Modifier.padding(innerPadding)
         ) {
-            items(scores.size) {
-                val item = scores[0]
+            items(scores.size) { index ->
+                val item = scores[index]
                 ScoreItem(
                     getShareIntent = {
                         scoreBoardViewModel.getShareIntent(item.score)

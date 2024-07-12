@@ -6,11 +6,11 @@ import androidx.room.Query
 
 @Dao
 interface ScoreDao {
-    @Query("SELECT * FROM score")
+    @Query("SELECT * FROM Score ORDER BY date DESC")
     suspend fun getAll(): List<Score>
 
-    @Query("SELECT * FROM score") //TODO changer en list ? Comment trouver les trois premiers
-    suspend fun getBestScores(): Array<Score>
+    @Query("SELECT * FROM Score ORDER BY score DESC") //TODO changer en list ? Comment trouver les trois premiers
+    suspend fun getBestScores(): List<Score>
 
     @Insert
     suspend fun insertScore(score: Score)
