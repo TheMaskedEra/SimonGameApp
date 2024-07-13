@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
-class Score(
+data class Score(
     @PrimaryKey val id: UUID = UUID.randomUUID(),
     val name:String,
     val score: Int,

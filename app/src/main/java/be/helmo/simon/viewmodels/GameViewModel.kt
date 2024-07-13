@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
 class GameViewModel(
-
+ private val gameRules: GameRules = GameRules()
 ) : ViewModel() {
 
     private val millisValue: Long = 500
@@ -21,16 +21,8 @@ class GameViewModel(
     private val _uiState: MutableStateFlow<GameUiState> = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
-    private var gameRules: GameRules = GameRules()
-
     init {
         showSequence()
-    }
-
-    private fun toggleClick() {
-        _uiState.update {
-            it.copy(canClick = !it.canClick)
-        }
     }
 
     fun onButtonClicked(currentColor: GameTileUiState) {
@@ -44,7 +36,6 @@ class GameViewModel(
                 -1 -> showEnding()
                 1 -> {
                     incrementScore()
-                    delay(100)
                     showSequence()
                 }
             }
@@ -53,16 +44,22 @@ class GameViewModel(
         }
     }
 
+    private fun toggleClick() {
+        _uiState.update {
+            it.copy(canClick = !it.canClick)
+        }
+    }
+
     private fun showSequence() {
         val sequence = gameRules.sequence
 
         viewModelScope.launch {
             toggleClick()
-
+            delay(100)
             for (note in sequence) {
                 val gameTile = GameTileUiState.findGameTileUiState(note) ?: continue
                 gameTile.glimpseColor(millisValue)
-                delay(100)
+                delay(50)
             }
 
             toggleClick()
@@ -71,7 +68,7 @@ class GameViewModel(
 
     private fun showEnding() {
         _uiState.update {
-            it.copy(isEnd = true) //TODO Dialog pour demander s'il veut sauvegarder son score
+            it.copy(isEnd = true)
         }
     }
 
