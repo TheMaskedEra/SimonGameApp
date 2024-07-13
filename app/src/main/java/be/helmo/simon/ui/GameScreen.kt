@@ -48,11 +48,18 @@ fun GameScreen(
     val gameUiState by gameViewModel.uiState.collectAsState()
 
     if (gameUiState.isEnd) {
-        GameEndDialog(onDismissRequest = onBackArrowClicked, onConfirmRequest = {
-            onGameFinished(
-                gameUiState.score
-            )
-        })
+        GameEndDialog(
+            onDismissRequest = {
+                onBackArrowClicked()
+                gameUiState.isEnd = false
+            },
+            onConfirmRequest = {
+                onGameFinished(
+                    gameUiState.score
+                )
+                gameUiState.isEnd = false
+            }
+        )
     }
 
     Scaffold(

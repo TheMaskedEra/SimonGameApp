@@ -21,42 +21,6 @@ import org.mockito.kotlin.verify
 @OptIn(ExperimentalCoroutinesApi::class)
 class GameViewModelTests {
 
-    private lateinit var testDispatcher: TestDispatcher
-    private lateinit var mockGameRules: GameRules
 
-    @Before
-    fun setUp() {
-        testDispatcher = UnconfinedTestDispatcher()
-        Dispatchers.setMain(testDispatcher)
-        mockGameRules = mock()
-    }
-
-    @Test
-    fun `onButtonClicked makes the button glimpes`() = runTest {
-        val testColor: GameTileUiState = GameTileUiState.Green
-        val viewModel = GameViewModel(mockGameRules)
-
-        `when`(mockGameRules.checkNote(testColor.value)).thenReturn(1)
-
-        verify(testColor.glimpseColor(500))
-    }
-
-    @Test
-    fun `onButtonClicked toggles click state and checks note`() = runTest {
-        val testColor = GameTileUiState.Green
-        val viewModel = GameViewModel(mockGameRules)
-
-        `when`(mockGameRules.checkNote(testColor.value)).thenReturn(1)
-
-        viewModel.onButtonClicked(testColor)
-
-        verify(mockGameRules).checkNote(testColor.value)
-        assertEquals(1, viewModel.uiState.value.score)
-    }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
 
 }

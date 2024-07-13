@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
 class GameViewModel(
- private val gameRules: GameRules = GameRules()
+    private val gameRules: GameRules = GameRules()
 ) : ViewModel() {
 
     private val millisValue: Long = 500

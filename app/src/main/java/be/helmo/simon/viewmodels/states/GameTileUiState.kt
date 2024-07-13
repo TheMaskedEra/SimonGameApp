@@ -40,8 +40,6 @@ sealed class GameTileUiState(
 
     companion object {
 
-        val values: List<GameTileUiState> = listOf(Red, Yellow, Blue, Green)
-
         fun findGameTileUiState(charValue: Char): GameTileUiState? {
             return when (charValue) {
                 Red.value -> Red

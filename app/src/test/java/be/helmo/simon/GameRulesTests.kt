@@ -6,7 +6,7 @@ import org.junit.Test
 class GameRulesTests {
 
     @Test
-    fun shouldHaveAMoveFromStart() {
+    fun `should have a move from start`() {
         val rules = GameRules()
         val sequence = rules.sequence
 
@@ -14,7 +14,7 @@ class GameRulesTests {
     }
 
     @Test
-    fun shouldReturnOneWhenCheckingValidMoveWithLastValidMove() {
+    fun `should return one when checking valid move with last valid move`() {
         val rules = GameRules()
         val sequence = rules.sequence
         val firstMove = sequence[0]
@@ -23,7 +23,7 @@ class GameRulesTests {
     }
 
     @Test
-    fun shouldReturnZeroWhenCheckingValidMoveWithValidMoveAndMoreMoves() {
+    fun `should return zero when checking valid move with valid move and more moves`() {
         val rules = GameRules()
         val sequence = rules.sequence
         val firstMove = sequence[0]
@@ -33,7 +33,7 @@ class GameRulesTests {
     }
 
     @Test
-    fun shouldReturnNegativeOneWhenCheckingValidMoveWithBadResult() {
+    fun `should return negative one when checking move with bad result`() {
         val rules = GameRules()
         val firstMove = '2'
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import be.helmo.simon.ui.SimonApp
+import be.helmo.simon.ui.SimonNavGraph
 import be.helmo.simon.ui.theme.SimonTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SimonTheme {
-                SimonApp()
+                SimonNavGraph()
             }
         }
     }

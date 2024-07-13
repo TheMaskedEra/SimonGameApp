@@ -10,6 +10,6 @@ class SimonApplication: Application() {
         super.onCreate()
 
         SimonDatabase.create(this)
-        ScoreRepository.create(SimonDatabase.get()) //TODO devoir injecter les dépendances ici
+        ScoreRepository.create(SimonDatabase.get()) //TODO HILT ?
     }
 }

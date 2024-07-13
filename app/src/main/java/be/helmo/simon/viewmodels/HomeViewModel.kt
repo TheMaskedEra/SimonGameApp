@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    scoreRepository: ScoreRepository = ScoreRepository.get()
+    private val scoreRepository: ScoreRepository = ScoreRepository.get()
 ) : ViewModel() {
 
     private var _bestScores: MutableStateFlow<List<ScoreItemUiState>> = MutableStateFlow(emptyList())

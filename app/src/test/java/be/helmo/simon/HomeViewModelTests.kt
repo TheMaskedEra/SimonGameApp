@@ -32,7 +32,7 @@ class HomeViewModelTests {
     }
 
     @Test
-    fun bestScoresIsEmptyListOnNoScoresLoaded() = runTest {
+    fun `best scores is empty and shows nothing`() = runTest {
         `when`(mockRepo.getBestScores()).thenReturn(emptyList())
         val expectedList: List<ScoreItemUiState> = emptyList()
 
@@ -44,7 +44,7 @@ class HomeViewModelTests {
     }
 
     @Test
-    fun bestScoresIsTheSizeOfNumberOfSCoresIfUnder3() = runTest {
+    fun `number of best scores is under 3 and shows everything`() = runTest {
         val scoreList = listOf(
             Score(name = "Alexis", score = 1),
             Score(name = "Alexis", score = 0)
@@ -66,7 +66,7 @@ class HomeViewModelTests {
     }
 
     @Test
-    fun bestScoresIsGreaterThan3() = runTest {
+    fun `Number of scores is greater than 3 but shows the only 3 bests`() = runTest {
         val scoreList = listOf(
             Score(name = "Gaelle", score = 84),
             Score(name = "Alexis", score = 12),
