@@ -18,8 +18,8 @@ import be.helmo.simon.viewmodels.states.GameUiState
 
 @Composable
 fun GameTile(
-    color: GameTileUiState,
-    state: GameUiState,
+    gameTileState: GameTileUiState,
+    gameState: GameUiState,
     onClick: (GameTileUiState) -> Unit
 ) {
     val shape = RectangleShape
@@ -34,11 +34,11 @@ fun GameTile(
             modifier = Modifier
                 .size(100.dp)
                 .clip(shape)
-                .background(color.currentColor)
+                .background(gameTileState.currentColor)
                 .clickable(
-                    enabled = state.canClick,
+                    enabled = gameState.canClick,
                     onClick = {
-                        onClick.invoke(color)
+                        onClick.invoke(gameTileState)
                     }
                 )
         )

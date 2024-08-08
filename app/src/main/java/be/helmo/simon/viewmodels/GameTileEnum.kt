@@ -1,6 +1,7 @@
 package be.helmo.simon.viewmodels
 
 import androidx.compose.ui.graphics.Color
+import be.helmo.simon.R
 import be.helmo.simon.ui.theme.activeBlue
 import be.helmo.simon.ui.theme.activeGreen
 import be.helmo.simon.ui.theme.activeRed
@@ -14,13 +15,13 @@ enum class GameTileEnum(
     val value: Char,
     val idleColor: Color,
     val activeColor: Color,
-    val soundResource: String //TODO
+    val soundResource: Int
 ) {
-    Red('R', idleRed, activeRed, ""),
+    Red('R', idleRed, activeRed, R.raw.note1),
 
-    Yellow('Y', idleYellow, activeYellow, ""),
+    Yellow('Y', idleYellow, activeYellow, R.raw.note2),
 
-    Blue('B', idleBlue, activeBlue, ""),
+    Blue('B', idleBlue, activeBlue, R.raw.note3),
 
-    Green('G', idleGreen, activeGreen, "")
+    Green('G', idleGreen, activeGreen, R.raw.note4)
 }
