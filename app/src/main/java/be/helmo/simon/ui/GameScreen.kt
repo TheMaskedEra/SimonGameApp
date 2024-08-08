@@ -46,6 +46,7 @@ fun GameScreen(
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val onTileClick = gameViewModel::onColorTileClicked
 
     if (gameUiState.isEnd) {
         GameEndDialog(
@@ -114,17 +115,17 @@ fun GameScreen(
 
                         GameTile(
                             GameTileUiState.Blue,
-                            gameUiState
-                        ) {
-                            gameViewModel.onColorTileClicked(GameTileUiState.Blue, context)
-                        }
+                            gameUiState,
+                            context,
+                            onClick = onTileClick
+                        )
 
                         GameTile(
                             GameTileUiState.Green,
-                            gameUiState
-                        ) {
-                            gameViewModel.onColorTileClicked(GameTileUiState.Green, context)
-                        }
+                            gameUiState,
+                            context,
+                            onClick = onTileClick
+                        )
                     }
 
                     Spacer(modifier = Modifier.width(16.dp))
@@ -139,17 +140,17 @@ fun GameScreen(
 
                         GameTile(
                             GameTileUiState.Red,
-                            gameUiState
-                        ) {
-                            gameViewModel.onColorTileClicked(GameTileUiState.Red, context)
-                        }
+                            gameUiState,
+                            context,
+                            onClick = onTileClick
+                        )
 
                         GameTile(
                             GameTileUiState.Yellow,
-                            gameUiState
-                        ) {
-                            gameViewModel.onColorTileClicked(GameTileUiState.Yellow, context)
-                        }
+                            gameUiState,
+                            context,
+                            onClick = onTileClick
+                        )
                     }
                 }
             }

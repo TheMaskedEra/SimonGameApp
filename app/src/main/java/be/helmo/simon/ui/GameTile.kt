@@ -1,5 +1,6 @@
 package be.helmo.simon.ui
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,7 +17,8 @@ import be.helmo.simon.viewmodels.states.GameUiState
 fun GameTile(
     gameTileState: GameTileUiState,
     gameState: GameUiState,
-    onClick: () -> Unit
+    context: Context,
+    onClick: (GameTileUiState, Context) -> Unit
 ) {
     val shape = RectangleShape
 
@@ -28,7 +30,7 @@ fun GameTile(
             .clickable(
                 enabled = gameState.canClick,
                 onClick = {
-                    onClick()
+                    onClick(gameTileState, context)
                 }
             )
     )
