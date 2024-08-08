@@ -116,14 +116,12 @@ fun GameScreen(
                         GameTile(
                             GameTileUiState.Blue,
                             gameUiState,
-                            context,
                             onClick = onTileClick
                         )
 
                         GameTile(
                             GameTileUiState.Green,
                             gameUiState,
-                            context,
                             onClick = onTileClick
                         )
                     }
@@ -141,14 +139,12 @@ fun GameScreen(
                         GameTile(
                             GameTileUiState.Red,
                             gameUiState,
-                            context,
                             onClick = onTileClick
                         )
 
                         GameTile(
                             GameTileUiState.Yellow,
                             gameUiState,
-                            context,
                             onClick = onTileClick
                         )
                     }

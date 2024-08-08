@@ -1,6 +1,5 @@
 package be.helmo.simon.ui
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -9,7 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import be.helmo.simon.viewmodels.SoundPlayer
 import be.helmo.simon.viewmodels.states.GameTileUiState
 import be.helmo.simon.viewmodels.states.GameUiState
 
@@ -17,10 +18,17 @@ import be.helmo.simon.viewmodels.states.GameUiState
 fun GameTile(
     gameTileState: GameTileUiState,
     gameState: GameUiState,
-    context: Context,
-    onClick: (GameTileUiState, Context) -> Unit
+    onClick: (GameTileUiState) -> Unit
 ) {
     val shape = RectangleShape
+    val context = LocalContext.current
+    val soundPlayer = SoundPlayer(context);
+    val sound = gameTileState.soundResource
+
+    val testClick = gameTileState.toggle
+    if (testClick) {
+        soundPlayer.playSound(sound)
+    }
 
     Box(
         modifier = Modifier
@@ -30,7 +38,7 @@ fun GameTile(
             .clickable(
                 enabled = gameState.canClick,
                 onClick = {
-                    onClick(gameTileState, context)
+                    onClick(gameTileState)
                 }
             )
     )

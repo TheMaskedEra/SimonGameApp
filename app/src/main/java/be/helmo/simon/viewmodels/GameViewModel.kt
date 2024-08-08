@@ -1,7 +1,5 @@
 package be.helmo.simon.viewmodels
 
-import android.content.Context
-import android.media.MediaPlayer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.helmo.simon.domain.GameRules
@@ -23,20 +21,14 @@ class GameViewModel(
     private val _uiState: MutableStateFlow<GameUiState> = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
-    private val _colors: MutableList<GameTileUiState> = mutableListOf()
-    val colors: List<GameTileUiState> = _colors.toList()
-
     init {
         showSequence()
     }
 
-    fun onColorTileClicked(currentColor: GameTileUiState, context: Context) {
+    fun onColorTileClicked(currentColor: GameTileUiState) {
         viewModelScope.launch {
             toggleClick()
 
-            val player = MediaPlayer.create(context, currentColor.soundResource)
-            player.setOnCompletionListener { it.release() }
-            player.start()
             currentColor.glimpseColor(millisValue)
             val result = gameRules.checkNote(currentColor.value)
 
