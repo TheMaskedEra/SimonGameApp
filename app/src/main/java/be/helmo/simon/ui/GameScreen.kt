@@ -18,7 +18,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -29,10 +28,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import be.helmo.simon.R
 import be.helmo.simon.viewmodels.states.GameTileUiState
@@ -46,6 +45,7 @@ fun GameScreen(
     gameViewModel: GameViewModel = viewModel()
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
+    val context = LocalContext.current
 
     if (gameUiState.isEnd) {
         GameEndDialog(
@@ -116,14 +116,14 @@ fun GameScreen(
                             GameTileUiState.Blue,
                             gameUiState
                         ) {
-                            gameViewModel.onButtonClicked(GameTileUiState.Blue)
+                            gameViewModel.onColorTileClicked(GameTileUiState.Blue, context)
                         }
 
                         GameTile(
                             GameTileUiState.Green,
                             gameUiState
                         ) {
-                            gameViewModel.onButtonClicked(GameTileUiState.Green)
+                            gameViewModel.onColorTileClicked(GameTileUiState.Green, context)
                         }
                     }
 
@@ -141,14 +141,14 @@ fun GameScreen(
                             GameTileUiState.Red,
                             gameUiState
                         ) {
-                            gameViewModel.onButtonClicked(GameTileUiState.Red)
+                            gameViewModel.onColorTileClicked(GameTileUiState.Red, context)
                         }
 
                         GameTile(
                             GameTileUiState.Yellow,
                             gameUiState
                         ) {
-                            gameViewModel.onButtonClicked(GameTileUiState.Yellow)
+                            gameViewModel.onColorTileClicked(GameTileUiState.Yellow, context)
                         }
                     }
                 }
@@ -159,7 +159,6 @@ fun GameScreen(
 
 @Composable
 fun GameEndDialog(
-    modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     onConfirmRequest: (Int) -> Unit
 ) {
@@ -178,7 +177,7 @@ fun GameEndDialog(
         },
         confirmButton = {
             Button(onClick = {
-                onConfirmRequest.invoke(0) //TODO
+                onConfirmRequest(0)
             }) {
                 Text("Sauvegarder")
             }

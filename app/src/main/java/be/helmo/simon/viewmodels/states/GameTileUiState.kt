@@ -10,6 +10,8 @@ sealed class GameTileUiState(
     private val gameTileType: GameTileEnum,
 ) {
 
+    val soundResource = gameTileType.soundResource
+
     val value: Char = gameTileType.value
     var currentColor by mutableStateOf(gameTileType.idleColor)
         private set

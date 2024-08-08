@@ -1,5 +1,6 @@
 package be.helmo.simon
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,5 +17,9 @@ class MainActivity : ComponentActivity() {
                 SimonNavGraph()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

@@ -1,5 +1,7 @@
 package be.helmo.simon.viewmodels
 
+import android.content.Context
+import android.media.MediaPlayer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import be.helmo.simon.domain.GameRules
@@ -13,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
 
 class GameViewModel(
-    private val gameRules: GameRules = GameRules()
+    private val gameRules: GameRules = GameRules(),
 ) : ViewModel() {
 
     private val millisValue: Long = 500
@@ -21,21 +23,29 @@ class GameViewModel(
     private val _uiState: MutableStateFlow<GameUiState> = MutableStateFlow(GameUiState())
     val uiState: StateFlow<GameUiState> = _uiState.asStateFlow()
 
+    private val _colors: MutableList<GameTileUiState> = mutableListOf()
+    val colors: List<GameTileUiState> = _colors.toList()
+
     init {
         showSequence()
     }
 
-    fun onButtonClicked(currentColor: GameTileUiState) {
+    fun onColorTileClicked(currentColor: GameTileUiState, context: Context) {
         viewModelScope.launch {
             toggleClick()
 
+            val player = MediaPlayer.create(context, currentColor.soundResource)
+            player.setOnCompletionListener { it.release() }
+            player.start()
             currentColor.glimpseColor(millisValue)
             val result = gameRules.checkNote(currentColor.value)
 
             when(result) {
                 -1 -> showEnding()
                 1 -> {
-                    incrementScore()
+                    _uiState.update {
+                        it.copy(score = it.score + 1)
+                    }
                     showSequence()
                 }
             }
@@ -69,12 +79,6 @@ class GameViewModel(
     private fun showEnding() {
         _uiState.update {
             it.copy(isEnd = true)
-        }
-    }
-
-    private fun incrementScore() {
-        _uiState.update {
-            it.copy(score = it.score + 1)
         }
     }
 }
