@@ -43,7 +43,7 @@ class ScoreBoardViewModel(
         }
     }
 
-    fun getShareIntent(score: Int): Intent { //TODO trouver quel argument donner pour retrouver le score dans la db
+    fun getShareIntent(score: Int): Intent {
         val sendIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, "Je viens de faire $score points sur Simon ! Sauras-tu me battre ?")

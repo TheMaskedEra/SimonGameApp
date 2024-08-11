@@ -19,7 +19,7 @@ class SaveScoreViewModel(
         val newScore = Score(name = name, score = score)
 
         viewModelScope.launch {
-            scoreRepository.insertScore(newScore) //TODO dans un viewmodelScope
+            scoreRepository.insertScore(newScore)
         }
     }
 

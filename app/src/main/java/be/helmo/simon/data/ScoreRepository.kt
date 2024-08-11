@@ -11,7 +11,7 @@ class ScoreRepository private constructor(private val database: SimonDatabase) {
     companion object {
         private var INSTANCE: ScoreRepository? = null
 
-        fun create(database: SimonDatabase) { //TODO Faire ne sorte qu'il n'y ait que get
+        fun create(database: SimonDatabase) {
             INSTANCE = ScoreRepository(database)
         }
 

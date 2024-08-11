@@ -9,7 +9,7 @@ interface ScoreDao {
     @Query("SELECT * FROM Score ORDER BY date DESC")
     suspend fun getAll(): List<Score>
 
-    @Query("SELECT * FROM Score ORDER BY score DESC") //TODO changer en list ? Comment trouver les trois premiers
+    @Query("SELECT * FROM Score ORDER BY score DESC")
     suspend fun getBestScores(): List<Score>
 
     @Insert

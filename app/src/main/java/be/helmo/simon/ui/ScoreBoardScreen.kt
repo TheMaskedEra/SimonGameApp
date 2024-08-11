@@ -80,7 +80,6 @@ fun ScoreBoardScreen(
     }
 }
 
-@SuppressLint("DefaultLocale")
 @Composable
 fun ScoreItem(
     getShareIntent: (Int) -> Intent,
@@ -90,7 +89,7 @@ fun ScoreItem(
     val score = scoreItem.score
     val date = scoreItem.date
 
-    val dateFormat: String = String.format("Le %d/%02d %d à %d:%02d", date.dayOfMonth, date.monthValue, date.year, date.hour, date.minute) //TODO trouver le local language
+    val dateFormat: String = String.format("Le %d/%02d %d à %d:%02d", date.dayOfMonth, date.monthValue, date.year, date.hour, date.minute)
 
     Column(
         modifier = Modifier
