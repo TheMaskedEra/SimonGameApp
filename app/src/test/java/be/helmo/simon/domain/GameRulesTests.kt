@@ -1,6 +1,5 @@
-package be.helmo.simon
+package be.helmo.simon.domain
 
-import be.helmo.simon.domain.GameRules
 import org.junit.Test
 
 class GameRulesTests {

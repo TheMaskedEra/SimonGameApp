@@ -1,8 +1,7 @@
-package be.helmo.simon
+package be.helmo.simon.viewmodels
 
 import be.helmo.simon.data.Score
 import be.helmo.simon.data.ScoreRepository
-import be.helmo.simon.viewmodels.HomeViewModel
 import be.helmo.simon.viewmodels.states.ScoreItemUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

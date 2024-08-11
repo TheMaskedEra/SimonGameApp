@@ -49,7 +49,9 @@ fun HomeScreen(
                 },
                 actions = {
                     IconButton(onClick = onTrophyClicked) {
-                        Icon(painter = painterResource(id = R.drawable.ic_trophy), contentDescription = "Ranking Button")
+                        Icon(painter = painterResource(id = R.drawable.ic_trophy), contentDescription = stringResource(
+                            id = R.string.score_button_description
+                        ))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -72,7 +74,7 @@ fun HomeScreen(
                     Text(text = stringResource(R.string.play_title))
                 }
 
-                if (!scores.value.isEmpty()) {
+                if (scores.value.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(50.dp))
                     ScoreList(scores)
                 }
@@ -92,9 +94,14 @@ fun ScoreList(
 
         for ((index, score) in scoresValue.withIndex()) {
             val size = 25 - (index * 5)
+            val formattedScoreText = stringResource(
+                id = R.string.score_text,
+                index + 1,
+                score.score
+            )
 
             Text(
-                text = String.format("#%d %d points", index + 1, score.score),
+                text = formattedScoreText,
                 fontSize = size.sp
             )
         }

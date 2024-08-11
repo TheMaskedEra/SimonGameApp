@@ -2,4 +2,7 @@
     <string name="app_name">Simon</string>
 
     <string name="play_title">Jouer</string>
+    <string name="score_button_description">Boutons des scores</string>
+
+    <string name="score_text">#%1$d %2$d points</string>
 </resources>
