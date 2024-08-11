@@ -1,10 +1,7 @@
 package be.helmo.simon.ui
 
-import androidx.navigation.NamedNavArgument
-
 sealed class Screen(
-    val route: String,
-    val navArguments: List<NamedNavArgument> = emptyList()
+    val route: String
 ) {
     data object Home : Screen("home")
 

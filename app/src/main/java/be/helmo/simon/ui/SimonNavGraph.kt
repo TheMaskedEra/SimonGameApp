@@ -33,10 +33,12 @@ fun SimonNavGraph() {
         ) {
             GameScreen(
                 onBackArrowClicked = {
-                    navController.navigateUp() //TODO trouver un moyen de popstack avec les arguments pour retirer l'id directement
+                    navController.navigateUp()
                 },
                 onGameFinished = { score ->
-                    navController.navigate(Screen.SaveScore.withArgs(score.toString()))
+                    navController.navigate(Screen.SaveScore.withArgs(score.toString())) {
+                        popUpTo(Screen.Game.route) { inclusive = true }
+                    }
                 }
             )
         }
@@ -53,10 +55,14 @@ fun SimonNavGraph() {
                 SaveScoreScreen(
                     score = it,
                     onCloseCalled = {
-                        navController.navigate(Screen.Home.route)
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Home.route) { inclusive = true }
+                        }
                     },
                     onSaveAction = {
-                        navController.navigate(Screen.Home.route)
+                        navController.navigate(Screen.Home.route) {
+                            popUpTo(Screen.Home.route) { inclusive = true }
+                        }
                     }
                 )
             }
