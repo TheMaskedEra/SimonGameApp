@@ -21,9 +21,17 @@ fun GameTile(
     onClick: (GameTileUiState) -> Unit
 ) {
     val shape = RectangleShape
+
     val context = LocalContext.current
     val soundPlayer = SoundPlayer(context);
     val sound = gameTileState.soundResource
+
+    val colors = ColorSelector.getColor(gameTileState.value)
+    val currentColor = if (gameTileState.toggle) {
+        colors.activeColor
+    } else {
+        colors.idleColor
+    }
 
     val testClick = gameTileState.toggle
     if (testClick) {
@@ -34,7 +42,7 @@ fun GameTile(
         modifier = Modifier
             .size(100.dp)
             .clip(shape)
-            .background(gameTileState.currentColor)
+            .background(currentColor)
             .clickable(
                 enabled = gameState.canClick,
                 onClick = {

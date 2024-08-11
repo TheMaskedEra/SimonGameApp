@@ -45,7 +45,6 @@ fun GameScreen(
     gameViewModel: GameViewModel = viewModel()
 ) {
     val gameUiState by gameViewModel.uiState.collectAsState()
-    val context = LocalContext.current
     val onTileClick = gameViewModel::onColorTileClicked
 
     if (gameUiState.isEnd) {

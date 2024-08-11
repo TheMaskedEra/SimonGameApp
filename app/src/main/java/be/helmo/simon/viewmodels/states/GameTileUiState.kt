@@ -7,34 +7,23 @@ import be.helmo.simon.viewmodels.GameTileEnum
 import kotlinx.coroutines.delay
 
 sealed class GameTileUiState(
-    private val gameTileType: GameTileEnum,
+    gameTileType: GameTileEnum,
 ) {
 
     val soundResource = gameTileType.soundResource
 
     val value: Char = gameTileType.value
-    var currentColor by mutableStateOf(gameTileType.idleColor)
-        private set
 
 
     var toggle by mutableStateOf(false)
         private set
 
-    private fun toggleColor() {
-        currentColor = if (currentColor == gameTileType.activeColor) {
-            gameTileType.idleColor
-        } else {
-            gameTileType.activeColor
-        }
-        toggle = !toggle
-    }
-
     suspend fun glimpseColor(time: Long) {
-        toggleColor()
+        toggle = !toggle
 
         delay(time)
 
-        toggleColor()
+        toggle = !toggle
     }
 
     data object Red : GameTileUiState(GameTileEnum.Red)
